@@ -6,7 +6,8 @@
     /***********************
      * 1) 설정값
      ***********************/
-    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycby8am8gm2rg88wpkvfQy_3VTLNG5CQqbbF2pypE49sutF3T6NKmrA_WbIaPZaF259FBuQ/exec";
+    const ENDPOINT_URL =
+      "https://script.google.com/macros/s/AKfycbz_0MgDOdEFhxIHHr4jpnLLJByQGpViPfkjfpiH6v_Dd2_KRlsIXSb0ecXxUIa9uvHL0w/exec";
     const FORM_TOKEN = "leflex-b2b-2026-0612";
 
     const PRODUCTS = [
@@ -59,7 +60,6 @@
 
     /***********************
      * 3) 회계 담당자 토글
-     * - 요구사항: show 기본 + hide만 토글
      ***********************/
     const accountingBox = $("#accountingBox");
     const accName = $("#accName");
@@ -79,7 +79,6 @@
     }
 
     function setAccounting(on) {
-      // on=true면 회계 담당자 입력영역 표시
       if (!accountingBox) return;
 
       if (on) {
@@ -92,7 +91,6 @@
       }
     }
 
-    // 라디오 변경 감지
     $$('input[name="accountingToggle"]').forEach((radio) => {
       radio.addEventListener("change", () => {
         const on = $('input[name="accountingToggle"]:checked')?.value === "add";
@@ -177,14 +175,12 @@
         </div>
       `;
 
-      // 삭제
       div.querySelector("[data-remove]")?.addEventListener("click", () => {
         div.remove();
         renumberItems();
         syncAddBtnState();
       });
 
-      // 이벤트 바인딩
       const productSel = div.querySelector("[data-product]");
       const optionSel = div.querySelector("[data-option]");
       const qtyInput = div.querySelector("[data-qty]");
@@ -212,7 +208,6 @@
       return div;
     }
 
-    // 상품 추가 버튼
     addItemBtn?.addEventListener("click", () => {
       if (!itemsWrap) return;
       if (itemsWrap.children.length >= MAX_ITEMS) return;
@@ -221,7 +216,6 @@
       syncAddBtnState();
     });
 
-    // 초기 1개 생성
     if (itemsWrap) {
       itemsWrap.innerHTML = "";
       itemsWrap.appendChild(createItemRow(1));
@@ -299,7 +293,6 @@
       e.preventDefault();
       clearStatus();
 
-      // required 검증
       if (!form.checkValidity()) {
         showStatus("error", "필수 항목을 확인해주세요.");
         form.reportValidity();
@@ -343,6 +336,11 @@
         taxMode: taxModeSel?.value || "",
 
         notes: ($("#notes")?.value || "").trim(),
+
+        // ✅ 추가: 추적용 메타
+        origin: window.location.origin,
+        source: "vercel",
+        userAgent: navigator.userAgent,
       };
 
       if (submitBtn) {
@@ -367,7 +365,12 @@
 
         if (!json.ok) throw new Error(json.error || "서버 오류");
 
-        showStatus("success", "접수 완료! 빠르게 확인 후 안내드리겠습니다.");
+        // ✅ 변경: leadId 있으면 같이 노출
+        if (json.leadId) {
+          showStatus("success", `접수 완료! (접수번호: ${json.leadId}) 빠르게 확인 후 안내드리겠습니다.`);
+        } else {
+          showStatus("success", "접수 완료! 빠르게 확인 후 안내드리겠습니다.");
+        }
 
         // 리셋
         form.reset();
