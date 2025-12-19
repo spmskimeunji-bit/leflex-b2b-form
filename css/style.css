@@ -1,0 +1,353 @@
+:root {
+  /* base */
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --line: #e5e7eb;
+
+  /* text */
+  --txt: #111827;        /* 거의 블랙 */
+  --muted: #6b7280;      /* 회색 텍스트 */
+
+  /* accent */
+  --accent: #0d2d72;     /* 블루 포인트 */
+  --danger: #dc2626;     /* 에러 레드 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans KR, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+}
+
+a { color: inherit; }
+
+.wrap {
+  max-width: 920px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+/* header */
+.hero { margin-bottom: 20px; }
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+.hero p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+}
+
+/* grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.full { grid-column: 1 / -1; }
+
+/* form */
+label {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  color: #222;
+  margin: 12px 0 6px;
+}
+
+.req::after {
+  content: " *";
+  color: var(--accent);
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--txt);
+  border-radius: 10px;
+  padding: 12px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+select{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+}
+.help {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* layout helpers */
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* buttons */
+.btn {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--txt);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.btn:hover {
+  background: #f3f4f6;
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.btn.primary:hover {
+  background: #1d4ed8;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+.btn.danger {
+  background: #fee2e2;
+  border-color: #fecaca;
+  color: var(--danger);
+}
+
+/* ==================================================
+   pill / checkbox / radio (개선 버전)
+   - 텍스트 때문에 찌그러지는 현상 방지
+   - 체크/라디오 크기 고정 + 커스텀 스타일
+   ================================================== */
+
+/* pill: 형태 안정화 */
+.pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font-size: 14px;
+
+  line-height: 1;        /* 찌그러짐 방지 */
+  min-height: 40px;      /* 버튼 높이 고정 */
+  white-space: nowrap;   /* 기본 한 줄 */
+}
+
+/* 긴 텍스트를 두 줄로 쓰고 싶으면 label에 pill wrap 추가 */
+.pill.wrap{
+  white-space: normal;
+  line-height: 1.25;
+  min-height: auto;
+  border-radius: 14px;
+}
+
+/* 체크/라디오 기본 브라우저 UI 제거 + 고정 크기 */
+.pill > input[type="checkbox"],
+.pill > input[type="radio"]{
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  display: inline-grid;
+  place-content: center;
+  flex: 0 0 18px;
+}
+
+/* 라디오 원형 */
+.pill > input[type="radio"]{
+  border-radius: 999px;
+}
+
+/* 체크박스 둥근 사각 */
+.pill > input[type="checkbox"]{
+  border-radius: 5px;
+}
+
+/* 체크/선택 상태 */
+.pill > input[type="checkbox"]:checked,
+.pill > input[type="radio"]:checked{
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* 체크 표시 */
+.pill > input[type="checkbox"]::before{
+  content: "";
+  width: 10px;
+  height: 6px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(-45deg);
+  opacity: 0;
+  margin-top: -1px;
+}
+.pill > input[type="checkbox"]:checked::before{
+  opacity: 1;
+}
+
+/* 라디오 점 */
+.pill > input[type="radio"]::before{
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  transform: scale(0);
+  transition: transform .12s ease;
+}
+.pill > input[type="radio"]:checked::before{
+  transform: scale(1);
+}
+
+/* hover/focus */
+.pill:hover{
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+/* :has 지원 브라우저에서 포커스 링 (크롬/엣지 OK) */
+.pill:has(input:focus-visible){
+  outline: 3px solid rgba(13,45,114,0.12);
+  outline-offset: 2px;
+}
+
+/* 요청 서류처럼 grid3 안에 있는 pill은 "한 칸 꽉 차게" (줄바꿈/찌그러짐 방지) */
+.grid3 .pill{
+  margin: 0;
+  width: 100%;
+  color: #222;
+  justify-content: flex-start;
+  min-height: 44px;
+}
+
+/* separators */
+.sep {
+  height: 1px;
+  background: var(--line);
+  margin: 18px 0;
+}
+
+/* section title */
+.sectionTitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sectionTitle h2 {
+  margin: 0;
+  font-size: 16px;
+}
+.sectionTitle .meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* misc */
+.show { display: block; }
+.hide { display: none !important; }
+
+#itemsWrap > div + div {
+  margin-top: 10px;
+}
+
+.itemCard {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  background: #fafafa;
+}
+
+.errorBox {
+  font-size: 13px;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  padding: 12px;
+  border-radius: 10px;
+  color: #991b1b;
+}
+
+.successBox {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  padding: 12px;
+  border-radius: 10px;
+  color: #1e3a8a;
+}
+
+.footer {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* responsive */
+@media (max-width: 760px) {
+  .grid,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+  .grid3 .pill{
+    min-height: 44px;
+  }
+}
